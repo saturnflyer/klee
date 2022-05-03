@@ -8,9 +8,7 @@ class Something
     prefix "fill_in"
     suffix "_value"
     prefix "has_"
-  end
-  class << self
-    attr_reader :klee_patterns
+    middle "username"
   end
 
   def fill_in_formal_name
@@ -48,6 +46,12 @@ class Something
 
   def has_weird_value
   end
+
+  def verify_username_value
+  end
+
+  def enter_username_data
+  end
 end
 
 class TestKlee < Minitest::Test
@@ -57,6 +61,6 @@ class TestKlee < Minitest::Test
 
   def test_it_does_something_useful
     gestalt = Klee[Something.new].sort
-    assert_includes(gestalt.unusual, "enter_data")
+    assert_equal ["enter_data"], gestalt.unusual
   end
 end
