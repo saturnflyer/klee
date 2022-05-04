@@ -16,6 +16,7 @@ module Klee
     end
 
     def trace(threshold = 6)
+      plot.clear
       patterns.each do |pattern|
         matcher = pattern.is_a?(Regexp) ? pattern : %r{#{Regexp.quote(pattern)}}
 
