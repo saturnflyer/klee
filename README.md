@@ -16,7 +16,24 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+class Something
+  # define methods that might match some of the patterns
+end
+
+patterns = Klee.patterns do
+  prefix("has_")
+  prefix("verify_")
+  infix("_in_")
+  suffix("_value?")
+end
+
+gestalt = Klee[Something.new, patterns: patterns]
+gestalt.trace(6) # threshold for levenshtein distance between unusual method names
+puts gestalt.plot
+gestalt.trace(9) # clear the plot and trace again
+puts gestalt.plot
+```
 
 ## Development
 
