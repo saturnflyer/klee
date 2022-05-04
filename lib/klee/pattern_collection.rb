@@ -15,7 +15,7 @@ module Klee
       match(/#{quote(which)}\z/)
     end
 
-    def middle(which)
+    def infix(which)
       match(/.*#{quote(which)}.*/)
     end
 

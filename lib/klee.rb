@@ -22,6 +22,6 @@ module Klee
   def self.[](object,
     patterns: object.respond_to?(:klee_patterns) ? object.klee_patterns : raise(ArgumentError, "You must include patterns to match for #{object.inspect}"),
     ignored: Class.instance_methods)
-    Gestalt.new(object, patterns: patterns, ignored: ignored).sort
+    Gestalt.new(object, patterns: patterns, ignored: ignored).trace
   end
 end

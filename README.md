@@ -1,4 +1,4 @@
-# Klee
+# Klee (kleː)
 
 Find similarities and differences in object APIs by tracking patterns.
 
