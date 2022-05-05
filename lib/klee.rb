@@ -3,6 +3,7 @@
 require_relative "klee/version"
 require_relative "klee/pattern_collection"
 require_relative "klee/gestalt"
+require_relative "klee/concepts"
 
 module Klee
   class Error < StandardError; end
@@ -17,6 +18,10 @@ module Klee
 
   def self.patterns(&block)
     PatternCollection.new(&block)
+  end
+
+  def self.concepts(klass, modifiers: [])
+    Concepts.new(*klass.public_instance_methods(false))
   end
 
   def self.[](object,
