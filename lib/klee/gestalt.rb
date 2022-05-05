@@ -32,6 +32,10 @@ module Klee
       self
     end
 
+    def [](key)
+      plot.fetch(key)
+    end
+
     def prefixes
       plot.select { |key, _| key.start_with?("\\A") }
     end

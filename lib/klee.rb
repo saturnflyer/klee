@@ -24,9 +24,9 @@ module Klee
     Concepts.new(*klass.public_instance_methods(false))
   end
 
-  def self.[](object,
+  def self.[](object, threshold = 6,
     patterns: object.respond_to?(:klee_patterns) ? object.klee_patterns : raise(ArgumentError, "You must include patterns to match for #{object.inspect}"),
     ignored: Class.instance_methods)
-    Gestalt.new(object, patterns: patterns, ignored: ignored).trace
+    Gestalt.new(object, patterns: patterns, ignored: ignored).trace(threshold)
   end
 end

@@ -34,6 +34,7 @@ gestalt.trace(6) # threshold for levenshtein distance between unusual method nam
 puts gestalt.plot
 gestalt.trace(9) # clear the plot and trace again
 puts gestalt.plot
+puts gestalt["unusual"] # unusual method names
 ```
 
 ### Find hidden concepts based upon word repetition
