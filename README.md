@@ -16,6 +16,7 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
+### Sort methods based upon patterns
 ```ruby
 class Something
   # define methods that might match some of the patterns
@@ -33,6 +34,18 @@ gestalt.trace(6) # threshold for levenshtein distance between unusual method nam
 puts gestalt.plot
 gestalt.trace(9) # clear the plot and trace again
 puts gestalt.plot
+```
+
+### Find hidden concepts based upon word repetition
+```ruby
+class Something
+  # define methods that have common word parts
+end
+
+concept = Klee.concepts(Something)
+
+concept[4] #=> Set of words that appear at least 4 times
+concept[2] #=> larger Set of words that appear at least 2 times
 ```
 
 ## Development
