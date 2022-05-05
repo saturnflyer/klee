@@ -47,6 +47,9 @@ concept = Klee.concepts(Something)
 
 concept[4] #=> Set of words that appear at least 4 times
 concept[2] #=> larger Set of words that appear at least 2 times
+
+filtered = Klee.concepts(Something, modifiers: %i[fill_in_ hover_over_ _message])
+filtered[4] #=> Set of concepts excluding any common modifiers
 ```
 
 ## Development
