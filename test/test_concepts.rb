@@ -22,15 +22,6 @@ class Conceptual
 end
 
 class TestKleeConcepts < Minitest::Spec
-  def words(method_name)
-    method_name
-      .to_s
-      .gsub(modifier_matcher, "")
-      .gsub(/[\s:]/, "")
-      .split("_")
-      .delete_if { _1.empty? }
-  end
-
   it "returns a set of concepts based upon word repetition" do
     modifiers = %w[fill_in _value has_]
     concept = Klee.object_concepts(Conceptual, modifiers: modifiers)
