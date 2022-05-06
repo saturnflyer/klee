@@ -5,7 +5,7 @@ require "test_helper"
 class Something
   extend Klee
   klee_patterns do
-    # prefix "fill_in"
+    prefix "fill_in"
     prefix "has_"
     infix "username"
     suffix "_value"
@@ -48,15 +48,15 @@ class TestKlee < Minitest::Spec
     end
 
     it "matches the prefix" do
-      assert_operator gestalt.prefixes["\\Ahas_"], :>, Set.new(%w[has_error? has_message?])
+      assert_operator gestalt.prefixes["has_"], :>, Set.new(%w[has_error? has_message?])
     end
 
     it "matches the infix" do
-      assert_operator gestalt.infixes[".*username.*"], :>=, Set.new(%w[enter_username_data verify_username_value])
+      assert_operator gestalt.infixes["username"], :>=, Set.new(%w[enter_username_data verify_username_value])
     end
 
     it "matches the suffix" do
-      assert_operator gestalt.suffixes["_value\\z"], :>, Set.new(%w[formal_name_value has_weird_value informal_name_value verify_username_value])
+      assert_operator gestalt.suffixes["_value"], :>, Set.new(%w[formal_name_value has_weird_value informal_name_value verify_username_value])
     end
   end
 end

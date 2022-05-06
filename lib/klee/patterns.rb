@@ -1,5 +1,5 @@
 module Klee
-  class PatternCollection
+  class Patterns
     include Enumerable
 
     def initialize(&block)
@@ -14,6 +14,18 @@ module Klee
     alias_method :suffix, :prefix
     alias_method :infix, :prefix
 
+    def prefixes
+      @patterns[:prefix]
+    end
+
+    def infixes
+      @patterns[:infix]
+    end
+
+    def suffixes
+      @patterns[:suffix]
+    end
+
     def match(which)
       @patterns[:match].add which
       which
@@ -23,8 +35,12 @@ module Klee
       @patterns[:match].each(&block)
     end
 
-    def parts
+    def keys
       @patterns.except(:match).values.inject(Set.new, :+)
+    end
+
+    def key_for(pattern)
+      keys.find { pattern =~ _1 }
     end
 
     private

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "klee/version"
-require_relative "klee/pattern_collection"
+require_relative "klee/patterns"
 require_relative "klee/gestalt"
 require_relative "klee/concepts"
 
@@ -17,7 +17,11 @@ module Klee
   end
 
   def self.patterns(&block)
-    PatternCollection.new(&block)
+    Patterns.new(&block)
+  end
+
+  def self.concepts(*methond_names, modifiers: [])
+    Concepts.new(*methond_names, modifiers: [])
   end
 
   def self.object_concepts(object, modifiers: [])
@@ -27,10 +31,6 @@ module Klee
       object.public_methods(false)
     end
     concepts(*names, modifiers: modifiers)
-  end
-
-  def self.concepts(*methond_names, modifiers: [])
-    Concepts.new(*methond_names, modifiers: [])
   end
 
   def self.[](object, threshold = 6,

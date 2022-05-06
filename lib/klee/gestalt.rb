@@ -18,13 +18,10 @@ module Klee
     def trace(threshold: 6, modifiers: [], concept_threshold: 3)
       plot.clear
       patterns.each do |pattern|
-        matcher = pattern.is_a?(Regexp) ? pattern : %r{#{Regexp.quote(pattern)}}
-
-        matched = comparable.select { |method_name| matcher.match?(method_name.to_s) }
+        matched = comparable.select { |method_name| pattern.match?(method_name.to_s) }
         @unusual.delete_if { |strange| matched.include?(strange) }
 
-        key = clean_key(pattern)
-        plot[key].merge(matched)
+        plot[patterns.key_for(pattern)].merge(matched)
       end
 
       plot["unusual"].merge(unusual_set(threshold))
@@ -43,15 +40,15 @@ module Klee
     end
 
     def prefixes
-      plot.select { |key, _| key.start_with?("\\A") }
+      plot.select { |key, _| patterns.prefixes.include?(key) }
     end
 
     def infixes
-      plot.select { |key, _| key.match?(/\.\*.*\.\*/) }
+      plot.select { |key, _| patterns.infixes.include?(key) }
     end
 
     def suffixes
-      plot.select { |key, _| key.end_with?("\\z") }
+      plot.select { |key, _| patterns.suffixes.include?(key) }
     end
 
     def unusual?(*items)
