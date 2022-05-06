@@ -8,19 +8,11 @@ module Klee
     end
 
     def prefix(which)
-      @patterns[:prefix].add which
-      to_prefix(which).tap { match(_1) }
+      @patterns[__callee__].add which
+      send("to_#{__callee__}", which).tap { match(_1) }
     end
-
-    def suffix(which)
-      @patterns[:suffix].add which
-      to_suffix(which).tap { match(_1) }
-    end
-
-    def infix(which)
-      @patterns[:infix].add which
-      to_infix(which).tap { match(_1) }
-    end
+    alias_method :suffix, :prefix
+    alias_method :infix, :prefix
 
     def match(which)
       @patterns[:match].add which
@@ -32,7 +24,7 @@ module Klee
     end
 
     def parts
-      @patterns[:prefix] + @patterns[:infix] + @patterns[:suffix]
+      @patterns.except(:match).values.inject(Set.new, :+)
     end
 
     private
