@@ -57,10 +57,6 @@ module Klee
 
     private
 
-    def clean_key(key)
-      key.to_s.delete_prefix("(?-mix:").delete_suffix(")")
-    end
-
     def unusual_set(threshold)
       Set.new(unusual).divide { |a, b|
         DidYouMean::Levenshtein.distance(a, b) < threshold

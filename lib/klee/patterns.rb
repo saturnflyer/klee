@@ -14,6 +14,11 @@ module Klee
     alias_method :suffix, :prefix
     alias_method :infix, :prefix
 
+    def match(which)
+      @patterns[:match].add which
+      which
+    end
+
     def prefixes
       @patterns[:prefix]
     end
@@ -24,11 +29,6 @@ module Klee
 
     def suffixes
       @patterns[:suffix]
-    end
-
-    def match(which)
-      @patterns[:match].add which
-      which
     end
 
     def each(&block)
