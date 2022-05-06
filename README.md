@@ -30,9 +30,9 @@ patterns = Klee.patterns do
 end
 
 gestalt = Klee[Something.new, patterns: patterns]
-gestalt.trace(6) # threshold for levenshtein distance between unusual method names
+gestalt.trace(threshold: 6) # threshold for levenshtein distance between unusual method names
 puts gestalt.plot
-gestalt.trace(9) # clear the plot and trace again
+gestalt.trace(threshold: 9) # clear the plot and trace again
 puts gestalt.plot
 puts gestalt["unusual"] # unusual method names
 ```

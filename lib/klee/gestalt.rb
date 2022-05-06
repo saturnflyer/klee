@@ -15,7 +15,7 @@ module Klee
       @comparable ||= Set.new(@object.public_methods - ignored).map(&:to_s).freeze
     end
 
-    def trace(threshold = 6)
+    def trace(threshold: 6, modifiers: [], concept_threshold: 3)
       plot.clear
       patterns.each do |pattern|
         matcher = pattern.is_a?(Regexp) ? pattern : %r{#{Regexp.quote(pattern)}}
@@ -28,11 +28,17 @@ module Klee
       end
 
       plot["unusual"].merge(unusual_set(threshold))
+      plot["concepts"].merge(concepts(modifiers: modifiers, threshold: concept_threshold))
 
       self
     end
 
+    def concepts(modifiers: [], threshold: 3)
+      @concepts ||= Concepts.new(*unusual, modifiers: modifiers).call(threshold)
+    end
+
     def [](key)
+      trace if plot.empty?
       plot.fetch(key)
     end
 
