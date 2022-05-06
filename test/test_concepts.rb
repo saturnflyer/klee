@@ -33,7 +33,7 @@ class TestKleeConcepts < Minitest::Spec
 
   it "returns a set of concepts based upon word repetition" do
     modifiers = %w[fill_in _value has_]
-    concept = Klee.concepts(Conceptual, modifiers: modifiers)
+    concept = Klee.object_concepts(Conceptual, modifiers: modifiers)
     assert_includes concept[4], :banana
     refute_includes concept[4], :address
     assert_includes concept[3], :address

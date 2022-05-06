@@ -20,8 +20,17 @@ module Klee
     PatternCollection.new(&block)
   end
 
-  def self.concepts(klass, modifiers: [])
-    Concepts.new(*klass.public_instance_methods(false))
+  def self.object_concepts(object, modifiers: [])
+    names = if object.respond_to?(:public_instance_methods)
+              object.public_instance_methods(false)
+            else
+              object.public_methods(false)
+            end
+    concepts(*names, modifiers: modifiers)
+  end
+
+  def self.concepts(*methond_names, modifiers: [])
+    Concepts.new(*methond_names, modifiers: [])
   end
 
   def self.[](object, threshold = 6,
