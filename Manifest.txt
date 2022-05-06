@@ -1,0 +1,12 @@
+bin/console
+bin/setup
+exe/klee
+lib/klee.rb
+lib/klee/concepts.rb
+lib/klee/gestalt.rb
+lib/klee/patterns.rb
+lib/klee/version.rb
+LICENSE.txt
+CHANGELOG.md
+CODE_OF_CONDUCT.md
+README.md
