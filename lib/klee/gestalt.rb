@@ -4,12 +4,21 @@ module Klee
     def initialize(object, patterns:, ignored:)
       @object = object
       @patterns = patterns
-      @ignored = Array(ignored) + Klee.public_instance_methods
-
-      @plot = Hash.new { |h, k| h[k] = Set.new }
-      @unusual = comparable.dup
+      @init_ignored = ignored
     end
-    attr_reader :ignored, :patterns, :plot, :unusual
+    attr_reader :patterns
+
+    def unusual
+      @unusual ||= comparable.dup
+    end
+
+    def plot
+      @plot ||= Hash.new { |h, k| h[k] = Set.new }
+    end
+
+    def ignored
+      @ignored ||= Array(@init_ignored) + Klee.public_instance_methods
+    end
 
     def comparable
       @comparable ||= Set.new(@object.public_methods - ignored).map(&:to_s).freeze
@@ -19,7 +28,7 @@ module Klee
       plot.clear
       patterns.each do |pattern|
         matched = comparable.select { |method_name| pattern.match?(method_name.to_s) }
-        @unusual.delete_if { |strange| matched.include?(strange) }
+        unusual.delete_if { |strange| matched.include?(strange) }
 
         plot[patterns.key_for(pattern)].merge(matched)
       end
