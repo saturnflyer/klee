@@ -22,10 +22,10 @@ module Klee
 
   def self.object_concepts(object, modifiers: [])
     names = if object.respond_to?(:public_instance_methods)
-              object.public_instance_methods(false)
-            else
-              object.public_methods(false)
-            end
+      object.public_instance_methods(false)
+    else
+      object.public_methods(false)
+    end
     concepts(*names, modifiers: modifiers)
   end
 
