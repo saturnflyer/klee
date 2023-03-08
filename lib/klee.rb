@@ -20,8 +20,8 @@ module Klee
     Patterns.new(&block)
   end
 
-  def self.concepts(*methond_names, modifiers: [])
-    Concepts.new(*methond_names, modifiers: [])
+  def self.concepts(*method_names, modifiers: [])
+    Concepts.new(*method_names, modifiers: [])
   end
 
   def self.object_concepts(object, modifiers: [])
