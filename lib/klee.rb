@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# require "classifier-reborn"
 require_relative "klee/version"
 require_relative "klee/patterns"
 require_relative "klee/gestalt"
@@ -23,6 +24,10 @@ module Klee
   def self.concepts(*method_names, modifiers: [])
     Concepts.new(*method_names, modifiers: [])
   end
+
+  # def self.classifier
+  #   @classifier ||= ClassifierReborn::Bayes.new "Interesting", "Uninteresting"
+  # end
 
   def self.object_concepts(object, modifiers: [])
     names = if object.respond_to?(:public_instance_methods)
