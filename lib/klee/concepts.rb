@@ -34,7 +34,7 @@ module Klee
     end
 
     def samples
-      @samples ||= method_names.flat_map{ words(_1) }.tally
+      @samples ||= method_names.flat_map { words(_1) }.tally
     end
 
     def max
@@ -52,7 +52,7 @@ module Klee
     private
 
     def modifier_matcher
-      @modifier_matcher ||= Regexp.new modifiers.map{ Regexp.quote(_1) }.join("|")
+      @modifier_matcher ||= Regexp.new modifiers.map { Regexp.quote(_1) }.join("|")
     end
 
     def words(method_name)
