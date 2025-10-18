@@ -6,6 +6,7 @@ gemspec
 
 gem "rake"
 gem "rake-manifest"
+gem "reissue"
 gem "minitest"
 gem "standard"
 gem "debug"
