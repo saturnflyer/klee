@@ -9,7 +9,7 @@ module Klee
 
     def prefix(which)
       @patterns[__callee__].add which
-      send("to_#{__callee__}", which).tap { match(_1) }
+      send("to_#{__callee__}", which).tap { match(it) }
     end
     alias_method :suffix, :prefix
     alias_method :infix, :prefix
@@ -40,7 +40,7 @@ module Klee
     end
 
     def key_for(pattern)
-      keys.find { pattern =~ _1 }
+      keys.find { pattern =~ it }
     end
 
     private

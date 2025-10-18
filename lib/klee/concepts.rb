@@ -26,7 +26,7 @@ module Klee
 
     def clear
       clearable = instance_variables - %i[@method_names @modifiers]
-      clearable.each { send(:remove_instance_variable, _1) }
+      clearable.each { send(:remove_instance_variable, it) }
     end
 
     def each(&block)
@@ -34,7 +34,7 @@ module Klee
     end
 
     def samples
-      @samples ||= method_names.flat_map { words(_1) }.tally
+      @samples ||= method_names.flat_map { words(it) }.tally
     end
 
     def max
@@ -52,7 +52,7 @@ module Klee
     private
 
     def modifier_matcher
-      @modifier_matcher ||= Regexp.new modifiers.map { Regexp.quote(_1) }.join("|")
+      @modifier_matcher ||= Regexp.new modifiers.map { Regexp.quote(it) }.join("|")
     end
 
     def words(method_name)
@@ -66,7 +66,7 @@ module Klee
         end
         .gsub(/\s/, "")
         .split("_")
-        .delete_if { _1.empty? }
+        .delete_if { it.empty? }
     end
   end
 end

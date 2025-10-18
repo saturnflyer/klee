@@ -1,4 +1,3 @@
-require "set"
 module Klee
   class Gestalt
     def initialize(object, patterns:, ignored:)
@@ -49,15 +48,15 @@ module Klee
     end
 
     def prefixes
-      plot.select { |key, _| patterns.prefixes.include?(key) }
+      plot.slice(*patterns.prefixes)
     end
 
     def infixes
-      plot.select { |key, _| patterns.infixes.include?(key) }
+      plot.slice(*patterns.infixes)
     end
 
     def suffixes
-      plot.select { |key, _| patterns.suffixes.include?(key) }
+      plot.slice(*patterns.suffixes)
     end
 
     def unusual?(*items)

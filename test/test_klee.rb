@@ -4,6 +4,7 @@ require "test_helper"
 
 class Something
   extend Klee
+
   klee_patterns do
     prefix "fill_in"
     prefix "has_"
