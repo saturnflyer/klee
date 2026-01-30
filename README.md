@@ -52,6 +52,55 @@ filtered = Klee.object_concepts(Something, modifiers: %i[fill_in_ hover_over_ _m
 filtered[4] #=> Set of concepts excluding any common modifiers
 ```
 
+### Scan a codebase for domain concepts
+
+Discover hidden vocabulary across your entire codebase by analyzing class and method names.
+
+```ruby
+codebase = Klee.scan("app/**/*.rb", "lib/**/*.rb")
+
+# See all concepts ranked by frequency
+codebase.concepts.rank
+# => {
+#   "user" => { classes: Set["User", "UserSession"], methods: Set["current_user", "find_user"] },
+#   "account" => { classes: Set["Account", "AccountManager"], methods: Set["account_balance"] },
+#   ...
+# }
+
+# Drill into a specific concept
+codebase.concepts[:account]
+# => { classes: Set["Account", "AccountManager"], methods: Set["account_balance", "close_account"] }
+
+# Filter noise with ignore list and threshold
+codebase = Klee.scan("app/**/*.rb",
+                     ignore: %i[new create get set find all],
+                     threshold: 3)
+```
+
+### Find collaborator clusters
+
+Discover which objects frequently work together across your codebase.
+
+```ruby
+codebase = Klee.scan("app/**/*.rb", threshold: 3)
+
+# Pairwise co-occurrence (which objects appear together in files)
+codebase.collaborators.pairs
+# => { ["account", "user"] => 15, ["session", "user"] => 12, ... }
+
+# Method-level co-occurrence (tighter coupling)
+codebase.collaborators.pairs(scope: :method)
+# => { ["account", "user"] => 8, ... }
+
+# What collaborates with a specific object
+codebase.collaborators.for(:user)
+# => { "account" => 15, "session" => 12, "order" => 5 }
+
+# Derived clusters (connected components)
+codebase.collaborators.clusters
+# => [Set["user", "account", "session"], Set["order", "payment", "invoice"]]
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

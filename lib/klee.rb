@@ -5,6 +5,11 @@ require_relative "klee/version"
 require_relative "klee/patterns"
 require_relative "klee/gestalt"
 require_relative "klee/concepts"
+require_relative "klee/collaborators"
+require_relative "klee/file_analyzer"
+require_relative "klee/concept_index"
+require_relative "klee/collaborator_index"
+require_relative "klee/codebase"
 
 module Klee
   class Error < StandardError; end
@@ -42,5 +47,13 @@ module Klee
     patterns: object.respond_to?(:klee_patterns) ? object.klee_patterns : raise(ArgumentError, "You must include patterns to match for #{object.inspect}"),
     ignored: Class.instance_methods)
     Gestalt.new(object, patterns: patterns, ignored: ignored).trace(threshold: threshold)
+  end
+
+  def self.collaborators(const)
+    Klee::Collaborators.new(const)
+  end
+
+  def self.scan(*patterns, ignore: [], threshold: 2)
+    Codebase.new(*patterns, ignore: ignore, threshold: threshold)
   end
 end
