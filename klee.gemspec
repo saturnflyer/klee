@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "classifier-reborn", "~> 2.2"
+  spec.add_dependency "prism"
 end
