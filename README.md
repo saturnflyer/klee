@@ -101,6 +101,38 @@ codebase.collaborators.clusters
 # => [Set["user", "account", "session"], Set["order", "payment", "invoice"]]
 ```
 
+### MCP Server for Claude Code
+
+Expose klee's vocabulary analysis to Claude Code or other MCP clients.
+
+```bash
+# Install the mcp gem (optional dependency)
+gem install mcp
+
+# Run the server
+klee-mcp
+```
+
+Configure Claude Code in `~/.claude.json`:
+
+```json
+{
+  "mcpServers": {
+    "klee": {
+      "command": "klee-mcp"
+    }
+  }
+}
+```
+
+Available tools:
+- `discover_vocabulary` - Extract domain language from a codebase
+- `find_concept_clusters` - Identify groups of related concepts
+- `explore_concept` - Deep-dive into a specific concept
+- `find_collaborators` - Find objects that work together
+- `check_naming_consistency` - Detect naming pattern deviations
+- `codebase_summary` - High-level vocabulary overview
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
