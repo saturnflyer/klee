@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+begin
+  require "mcp"
+rescue LoadError
+  warn <<~ERROR
+    klee-mcp requires the 'mcp' gem for MCP server support.
+
+    Install it with:
+      gem install mcp
+
+    Then run klee-mcp again.
+  ERROR
+  exit 1
+end
+
+require "klee"
+require "klee/mcp"
+
+Klee::MCP::Server.new.run

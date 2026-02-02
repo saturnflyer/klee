@@ -23,7 +23,14 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  # Uncomment to register a new dependency of your gem
-  # spec.add_dependency "classifier-reborn", "~> 2.2"
   spec.add_dependency "prism"
+
+  spec.post_install_message = <<~MSG
+    klee installed successfully!
+
+    For MCP server support (Claude Code integration), also install:
+      gem install mcp
+
+    Then run: klee-mcp
+  MSG
 end

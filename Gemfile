@@ -11,3 +11,6 @@ gem "minitest"
 gem "standard"
 gem "simplecov"
 gem "debug"
+
+# Optional: MCP server support
+gem "mcp", "~> 0.6"
