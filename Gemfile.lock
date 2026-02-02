@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    klee (0.1.2)
+    klee (0.1.3)
       prism
 
 GEM
