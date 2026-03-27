@@ -13,4 +13,4 @@ gem "simplecov"
 gem "debug"
 
 # Optional: MCP server support
-gem "mcp", "~> 0.6"
+gem "mcp", "~> 0.9"
