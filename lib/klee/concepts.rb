@@ -1,26 +1,24 @@
+# frozen_string_literal: true
+
+require_relative "words"
+
 module Klee
   class Concepts
     include Enumerable
 
     def initialize(*method_names, modifiers: [])
       @method_names = method_names
-      @modifiers = modifiers
+      @modifiers = Array(modifiers).map(&:to_s)
     end
     attr_reader :method_names, :modifiers
 
     def call(threshold)
-      warn "threshold is beyond the max count of #{max}" if threshold > max
-      warn "threshold is below the min count of #{min}" if threshold < min
-      clear
-      @ideas = Set.new samples
-        .select { |key, value|
-          if value.to_i >= threshold
-            key
-          end
-        }
-        .compact
-        .transform_keys(&:to_sym)
-        .keys
+      unless samples.empty?
+        warn "threshold is beyond the max count of #{max}" if threshold > max
+        warn "threshold is below the min count of #{min}" if threshold < min
+      end
+
+      method_groups.select { |_, methods| methods.size >= threshold }
     end
     alias_method :[], :call
 
@@ -38,10 +36,14 @@ module Klee
     end
 
     def max
+      return 0 if samples.empty?
+
       max_by { |_, v| v }.last
     end
 
     def min
+      return 0 if samples.empty?
+
       min_by { |_, v| v }.last
     end
 
@@ -51,22 +53,22 @@ module Klee
 
     private
 
+    def method_groups
+      groups = Hash.new { |h, k| h[k] = [] }
+      method_names.each do |name|
+        words(name).uniq.each { |word| groups[word.to_sym] << name.to_sym }
+      end
+      groups
+    end
+
     def modifier_matcher
-      @modifier_matcher ||= Regexp.new modifiers.map { Regexp.quote(it) }.join("|")
+      @modifier_matcher ||= Regexp.new(modifiers.map { Regexp.quote(it) }.join("|"))
     end
 
     def words(method_name)
-      method_name.to_s
-        .then do |string|
-          if modifiers.empty?
-            string
-          else
-            string.gsub(modifier_matcher, "")
-          end
-        end
-        .gsub(/\s/, "")
-        .split("_")
-        .delete_if { it.empty? }
+      string = method_name.to_s
+      string = string.gsub(modifier_matcher, "") unless modifiers.empty?
+      Words.from(string)
     end
   end
 end

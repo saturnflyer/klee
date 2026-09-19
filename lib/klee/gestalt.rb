@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Klee
   class Gestalt
     def initialize(object, patterns:, ignored:)
@@ -33,7 +35,7 @@ module Klee
       end
 
       plot["unusual"].merge(unusual_set(threshold))
-      plot["concepts"].merge(concepts(modifiers: modifiers, threshold: concept_threshold))
+      plot["concepts"].merge(concepts(modifiers: modifiers, threshold: concept_threshold).keys)
 
       self
     end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "words"
+
 module Klee
   class ConceptIndex
     include Enumerable
@@ -35,9 +37,7 @@ module Klee
     private
 
     def words_from(name)
-      name.to_s.gsub(/([a-z])([A-Z])/, '\1_\2')
-        .downcase.split("_")
-        .reject { |w| w.empty? || @ignore.include?(w) }
+      Words.from(name, ignore: @ignore)
     end
 
     def filtered

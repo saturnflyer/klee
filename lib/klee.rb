@@ -2,6 +2,7 @@
 
 # require "classifier-reborn"
 require_relative "klee/version"
+require_relative "klee/words"
 require_relative "klee/patterns"
 require_relative "klee/gestalt"
 require_relative "klee/concepts"
@@ -27,7 +28,7 @@ module Klee
   end
 
   def self.concepts(*method_names, modifiers: [])
-    Concepts.new(*method_names, modifiers: [])
+    Concepts.new(*method_names, modifiers: modifiers)
   end
 
   # def self.classifier
