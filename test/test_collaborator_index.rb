@@ -27,6 +27,14 @@ class TestCollaboratorIndex < Minitest::Spec
       end
     end
 
+    it "pairs schema with object in the multi_object sample" do
+      codebase = Klee.scan(sample_path, threshold: 1)
+      pair = codebase.collaborators.pairs.keys.find { |names| names.include?("schema") }
+
+      refute_nil pair
+      assert_includes pair, "object"
+    end
+
     it "respects threshold" do
       codebase = Klee.scan(sample_path, threshold: 100)
       assert_empty codebase.collaborators.pairs

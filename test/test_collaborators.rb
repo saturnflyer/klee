@@ -16,4 +16,13 @@ class TestCollaborators < Minitest::Spec
       5 => ["schema"]
     })
   end
+
+  it "tallies every message-receiving identifier in the source file" do
+    collaborators = Klee.collaborators(MultiObject)
+
+    expect(collaborators.tally).must_equal({
+      "object" => 1,
+      "schema" => 5
+    })
+  end
 end
