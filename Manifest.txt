@@ -21,6 +21,7 @@ lib/klee/mcp/tools/find_collaborators.rb
 lib/klee/mcp/tools/find_concept_clusters.rb
 lib/klee/mcp/version.rb
 lib/klee/patterns.rb
+lib/klee/profile.rb
 lib/klee/version.rb
 lib/klee/words.rb
 sig/klee.rbs

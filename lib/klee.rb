@@ -10,6 +10,7 @@ require_relative "klee/file_analyzer"
 require_relative "klee/collaborators"
 require_relative "klee/concept_index"
 require_relative "klee/collaborator_index"
+require_relative "klee/profile"
 require_relative "klee/codebase"
 
 module Klee
@@ -54,7 +55,8 @@ module Klee
     Klee::Collaborators.new(const)
   end
 
-  def self.scan(*patterns, ignore: [], threshold: 2)
-    Codebase.new(*patterns, ignore: ignore, threshold: threshold)
+  def self.scan(*patterns, ignore: [], threshold: 2, profile: nil)
+    spec = Profile.resolve(profile, patterns: patterns, ignore: ignore, threshold: threshold)
+    Codebase.new(*spec[:patterns], ignore: spec[:ignore], threshold: spec[:threshold])
   end
 end

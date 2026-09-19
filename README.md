@@ -45,11 +45,14 @@ end
 
 concept = Klee.object_concepts(Something)
 
-concept[4] #=> Set of words that appear at least 4 times
-concept[2] #=> larger Set of words that appear at least 2 times
+concept[4]
+# => { banana: [:banana_berry, :banana_boat, :banana_bunch, :banana_hammock], ... }
+
+concept[3][:address]
+# => [:address_informal_name, :address_street, :address_zip]
 
 filtered = Klee.object_concepts(Something, modifiers: %i[fill_in_ hover_over_ _message])
-filtered[4] #=> Set of concepts excluding any common modifiers
+filtered[4] # modifiers stripped before words are counted
 ```
 
 ### Scan a codebase for domain concepts
@@ -75,6 +78,31 @@ codebase.concepts[:account]
 codebase = Klee.scan("app/**/*.rb",
                      ignore: %i[new create get set find all],
                      threshold: 3)
+```
+
+### Rails profile
+
+Skip views, drop English function words, and get the extract-type read model:
+
+```ruby
+cb = Klee.scan(profile: :rails) # app/models/**/*.rb + lib/**/*.rb from cwd
+
+cb.concepts.catalog.first
+# => #<data Klee::ConceptIndex::Entry word="intensity" class_count=71 method_count=29 bias=:type>
+
+cb.concepts.gaps
+# => { "seconds" => { classes: 0, methods: 95, names: #<Set: {"trailing_rest_seconds", ...}> }, ... }
+
+cb.concepts.units
+# => { "seconds" => ["cap_clock_seconds", "trailing_rest_seconds", ...], "minutes" => [...], "kg" => [...] }
+```
+
+`catalog` bias is `:type` (class-heavy), `:verb` (`build`/`calculate`/`extract`/…), `:gap` (many methods, almost no classes), or `:mixed`.
+
+Pass explicit globs with the profile to keep the stopwords:
+
+```ruby
+Klee.scan("app/models/**/*.rb", profile: :rails, threshold: 4)
 ```
 
 ### Find collaborator clusters
